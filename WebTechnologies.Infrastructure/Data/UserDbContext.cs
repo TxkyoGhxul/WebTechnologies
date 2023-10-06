@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using WebTechnologies.Application.Interfaces;
 using WebTechnologies.Domain.Models;
 
@@ -11,4 +12,11 @@ internal class UserDbContext : DbContext, IUserDbContext, IUnitOfWork
 
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
 }
