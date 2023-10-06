@@ -1,4 +1,5 @@
-﻿using WebTechnologies.Domain.ValueObjects;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using WebTechnologies.Domain.ValueObjects;
 
 namespace WebTechnologies.Domain.Models;
 public class User
@@ -32,6 +33,7 @@ public class User
         Roles = roles;
     }
 
+    //[NotMapped]
     public int Age => WasBirthdayThisYear() ? 
         DateTime.UtcNow.Year - BirthDate.Year : 
         DateTime.UtcNow.Year - BirthDate.Year - 1;

@@ -5,14 +5,15 @@ using WebTechnologies.Domain.Exceptions;
 namespace WebTechnologies.Domain.ValueObjects;
 public class Email : ValueOf<string, Email>
 {
-    private const string _emailPattern = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
-    
     private static readonly Regex _emailRegex = new(_emailPattern);
+
+    private const int _maxLength = 50;
+    private const string _emailPattern = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$";
 
     protected override void Validate()
     {
         var match = _emailRegex.Match(Value);
-        if (!match.Success)
+        if (!match.Success || Value.Length > _maxLength)
         {
             throw new InvalidEmailException(Value);
         }
