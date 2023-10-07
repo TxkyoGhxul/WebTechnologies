@@ -1,7 +1,8 @@
-﻿namespace WebTechnologies.Domain.Models;
-public class Role
+﻿using WebTechnologies.Domain.Models.Base;
+
+namespace WebTechnologies.Domain.Models;
+public class Role : Entity
 {
-    public Guid Id { get; set; }
     public string Name { get; set; }
     public List<User> Users { get; set; } = new();
 
@@ -11,6 +12,7 @@ public class Role
 
     public Role(string name)
     {
+        Id = Guid.NewGuid();
         Name = name;
     }
 

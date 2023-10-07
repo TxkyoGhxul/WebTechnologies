@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using WebTechnologies.Domain.Models.Base;
 using WebTechnologies.Domain.ValueObjects;
 
 namespace WebTechnologies.Domain.Models;
-public class User
+public class User : Entity
 {
-    public Guid Id { get; set; }
     public DateOnly BirthDate { get; set; }
     public string Name { get; set; }
     public Email Email { get; set; }
@@ -33,7 +33,6 @@ public class User
         Roles = roles;
     }
 
-    //[NotMapped]
     public int Age => WasBirthdayThisYear() ? 
         DateTime.UtcNow.Year - BirthDate.Year : 
         DateTime.UtcNow.Year - BirthDate.Year - 1;
