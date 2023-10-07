@@ -18,5 +18,13 @@ internal class UserDbContext : DbContext, IUserDbContext, IUnitOfWork
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        modelBuilder.Entity<Role>()
+            .HasData(
+                WebTechnologies.Domain.Constants.Roles.User,
+                WebTechnologies.Domain.Constants.Roles.Support,
+                WebTechnologies.Domain.Constants.Roles.Admin,
+                WebTechnologies.Domain.Constants.Roles.SuperAdmin
+            );
     }
 }
