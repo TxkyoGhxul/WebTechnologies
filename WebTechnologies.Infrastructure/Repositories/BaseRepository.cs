@@ -17,6 +17,7 @@ internal class BaseRepository<T> : IRepository<T> where T : Entity, new()
     public void Create(T entity)
     {
         _context.Set<T>().Add(entity);
+        //_context.SaveChanges();
     }
 
     public void Delete(T entity)

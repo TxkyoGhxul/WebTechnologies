@@ -17,7 +17,8 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddScoped<IUserDbContext, UserDbContext>();
-        services.AddScoped<IUnitOfWork, UserDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        //services.AddScoped<IUnitOfWork, UserDbContext>();
 
         return services;
     }
