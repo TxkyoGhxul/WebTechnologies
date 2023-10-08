@@ -4,7 +4,7 @@ using WebTechnologies.Application.Interfaces;
 using WebTechnologies.Domain.Models;
 
 namespace WebTechnologies.Infrastructure.Data;
-internal class UserDbContext : DbContext, IUserDbContext, IUnitOfWork
+public class UserDbContext : DbContext, IUserDbContext, IUnitOfWork
 {
     public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
     {
