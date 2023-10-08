@@ -5,6 +5,10 @@ public class EntityNotFoundException : Exception
     {
     }
 
+    public EntityNotFoundException(string message) : base(message)
+    {
+    }
+
     public EntityNotFoundException(Guid id) : base($"Entity with ID: {id} not found")
     {
         Id = id;
