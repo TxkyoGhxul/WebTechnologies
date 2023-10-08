@@ -26,6 +26,8 @@ public class Result<T>
 
     public async Task<Result<T>> Bind(Func<T, Task<Result<T>>> func) => Success ? await func(Value) : ErrorMessage;
 
+    public static Result<T> From(T value) => new(value);
+
     public static implicit operator Result<T>(Exception exception) => new(exception.Message);
 
     public static implicit operator Result<T>(string errorMessage) => new(errorMessage);

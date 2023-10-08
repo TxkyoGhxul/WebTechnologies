@@ -4,17 +4,19 @@ namespace WebTechnologies.Application.Models;
 public class PagedList<T>
 {
     private const int _defaultPageSize = 10;
-    private const int _defaultPageNumber = 10;
+    private const int _defaultPageNumber = 1;
 
     public IReadOnlyCollection<T> Items { get; }
     public int PageNumber { get; }
     public int TotalPages { get; }
     public int TotalCount { get; }
+    public int PageSize { get; }
 
     private PagedList(IReadOnlyCollection<T> items, int count, int pageNumber, int pageSize)
     {
         PageNumber = pageNumber;
         TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+        PageSize = pageSize;
         TotalCount = count;
         Items = items;
     }
@@ -33,6 +35,18 @@ public class PagedList<T>
 
         return new(items, count, pageNumber, pageSize);
     }
+
+    public async Task<PagedList<TOut>> Map<TOut>(Func<T, TOut> mappingFunc)
+    {
+        var newItems = Items.Select(mappingFunc).ToList();
+        return new(newItems, TotalCount, PageNumber, PageSize);
+    }
+
+    //public static async Task<PagedList<TOut>> Map<TOut>(Func<object, TOut> mappingFunc)
+    //{
+    //    var newItems = list.Items.Select(x => mappingFunc(x)).ToList();
+    //    return new(newItems, list.TotalCount, list.PageNumber, list.PageSize);
+    //}
 
     private static void SetDefaultPageSizeIfNonPositive(ref int pageSize)
     {
