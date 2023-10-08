@@ -33,14 +33,15 @@ internal class GetAllUsersQueryHandler : BaseQueryHandler<User>, IQueryHandler<G
 
         users = _sorter.Sort(users, request.Field, request.Ascending);
 
-        return await _mapper.Map<IQueryable<SingleUserResponse>>(users)
-            .ToPagedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+        var response = await users.ToPagedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+
+        return await response.Map(_mapper.Map<SingleUserResponse>);
     }
 
     private static IQueryable<User> Filter(string filterText, IQueryable<User> users)
     {
         return users.Where(x => x.Name.Contains(filterText) ||
-                        x.Age.ToString() == filterText ||
+                        //x.Age.ToString() == filterText ||
                         x.BirthDate.ToString() == filterText ||
                         x.Email.Value.Contains(filterText));
     }
