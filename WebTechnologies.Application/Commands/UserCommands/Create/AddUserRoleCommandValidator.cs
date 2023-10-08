@@ -9,7 +9,7 @@ internal class AddUserRoleCommandValidator : AbstractValidator<AddUserRoleComman
             .NotEmpty()
                 .WithMessage("Prodive a user");
 
-        RuleFor(c => c.RolesToAdd)
+        RuleFor(c => c.RoleId)
             .NotNull()
             .NotEmpty()
                 .WithMessage("No roles to add");

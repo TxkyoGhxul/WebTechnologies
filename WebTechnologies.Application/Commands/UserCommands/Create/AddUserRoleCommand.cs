@@ -2,5 +2,5 @@
 using WebTechnologies.Domain.Models;
 
 namespace WebTechnologies.Application.Commands.UserCommands.Create;
-public record AddUserRoleCommand(Guid UserId, List<Role> RolesToAdd)
+public record AddUserRoleCommand(Guid UserId, Guid RoleId)
     : ICreateCommand<User>;
