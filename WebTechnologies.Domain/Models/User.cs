@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using WebTechnologies.Domain.Models.Base;
+﻿using WebTechnologies.Domain.Models.Base;
 using WebTechnologies.Domain.ValueObjects;
 
 namespace WebTechnologies.Domain.Models;
@@ -8,9 +7,9 @@ public class User : Entity
     public DateOnly BirthDate { get; set; }
     public string Name { get; set; }
     public Email Email { get; set; }
-    public List<Role> Roles { get; set; }
+    public List<Role> Roles { get; set; } = new();
 
-    private User() // EF needed
+    public User() // EF needed
     {
     }
 
@@ -33,11 +32,16 @@ public class User : Entity
         Roles = roles;
     }
 
-    public int Age => WasBirthdayThisYear() ? 
-        DateTime.UtcNow.Year - BirthDate.Year : 
+    public int Age => WasBirthdayThisYear() ?
+        DateTime.UtcNow.Year - BirthDate.Year :
         DateTime.UtcNow.Year - BirthDate.Year - 1;
 
-    private bool WasBirthdayThisYear() => 
-        DateTime.UtcNow.Month > BirthDate.Month || 
+    private bool WasBirthdayThisYear() =>
+        DateTime.UtcNow.Month > BirthDate.Month ||
         (DateTime.UtcNow.Month == BirthDate.Month && DateTime.UtcNow.Day >= BirthDate.Day);
+
+    public void AddRoles(IEnumerable<Role> rolesToAdd)
+    {
+        Roles.AddRange(rolesToAdd);
+    }
 }
