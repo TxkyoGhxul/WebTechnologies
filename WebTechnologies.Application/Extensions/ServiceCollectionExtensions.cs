@@ -1,8 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using WebTechnologies.Application.Authentication;
 using WebTechnologies.Application.Behaviors;
+using WebTechnologies.Application.Interfaces;
 using WebTechnologies.Application.Sorters;
 using WebTechnologies.Application.Sorters.Base;
 using WebTechnologies.Application.Sorters.Fields;
@@ -40,6 +44,16 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection InjectAutoMapper(this IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+        return services;
+    }
+
+    public static IServiceCollection InjectJwtBearer(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer();
+
+        services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
 
         return services;
     }
