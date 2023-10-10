@@ -4,6 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>D:\Учеба\Проекты на C#\Trash\WebTechnologies\WebTechnologies.WebAPI\bin\Debug\net7.0\WebTechnologies.WebAPI.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

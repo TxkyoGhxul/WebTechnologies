@@ -41,7 +41,6 @@ internal class GetAllUsersQueryHandler : BaseQueryHandler<User>, IQueryHandler<G
     private static IQueryable<User> Filter(string filterText, IQueryable<User> users)
     {
         return users.Where(x => x.Name.Contains(filterText) ||
-                        //x.Age.ToString() == filterText ||
                         x.BirthDate.ToString() == filterText ||
                         x.Email.Value.Contains(filterText));
     }

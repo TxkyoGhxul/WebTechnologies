@@ -1,3 +1,7 @@
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Serilog;
+using System.Reflection;
 using System.Text.Json.Serialization;
 using WebTechnologies.Application.Authentication;
 using WebTechnologies.Application.Extensions;
@@ -7,6 +11,7 @@ using WebTechnologies.Domain.Models;
 using WebTechnologies.Infrastructure.Data;
 using WebTechnologies.Infrastructure.Extensions;
 using WebTechnologies.Presentation.Controllers;
+using WebTechnologies.WebAPI.Middleware;
 using WebTechnologies.WebAPI.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +20,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Web Technologies API",
+        Description = "An ASP.NET Core Web API task for WebTechnologies company",
+    });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
+
 
 builder.Services
     .InjectDbContext(builder.Configuration)
@@ -55,6 +77,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSerilogRequestLogging();
+
+app.UseMiddleware<LoggingMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseCors();
 
