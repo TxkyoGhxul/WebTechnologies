@@ -12,7 +12,8 @@ internal class UserSorter : ISorter<User, UserSortField>
         {
             UserSortField.None => models,
             UserSortField.Name => ascending ? models.OrderBy(x => x.Name) : models.OrderByDescending(x => x.Name),
-            UserSortField.Age => ascending ? models.OrderBy(x => x.Age) : models.OrderByDescending(x => x.Age),
+            UserSortField.BirthDate => ascending ? models.OrderBy(x => x.BirthDate) : models.OrderByDescending(x => x.BirthDate),
+            //UserSortField.Age => ascending ? models.OrderBy(x => x.Age) : models.OrderByDescending(x => x.Age),
             UserSortField.Email => ascending ? models.OrderBy(x => x.Email) : models.OrderByDescending(x => x.Email),
             _ => models,
         };

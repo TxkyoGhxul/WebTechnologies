@@ -3,6 +3,6 @@ public enum UserSortField
 {
     None,
     Name,
-    Age,
+    BirthDate,
     Email
 }
